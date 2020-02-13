@@ -27,15 +27,16 @@ yyyy=$1
 ###PATHS
 ########
 ## Working directory (ADJUST if needed!)
-wdir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3
+wdir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3/$yyyy
 ## Input data directory (ADJUST if needed!)
-ddir=$wdir/rcp85_LBC
+ddir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3/rcp85_LBC
 ## Output directory. Will be created
-outdir=$wdir/out/rcp85/$yyyy
+outdir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3/out/rcp85/$yyyy
 
 #load modules needed
 module load grib_api cdo/1.9.5
 
+mkdir -p $wdir
 cd $wdir
 
 ### Define the z-axis, to be stored in zaxis.reverse2.txt

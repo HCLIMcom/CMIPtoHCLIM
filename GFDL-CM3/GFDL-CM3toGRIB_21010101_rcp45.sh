@@ -28,17 +28,17 @@ yyyy=2101
 ###PATHS
 ########
 ## Working directory (ADJUST if needed!)
-wdir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3
+wdir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3/$yyyy
 ## Input data directory (ADJUST if needed!)
-ddir=$wdir/rcp85_LBC
+ddir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3/rcp45_LBC
 ## Output directory. Will be created
-outdir=$wdir/out/rcp85/$yyyy
+outdir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3/out/rcp45/$yyyy
 
 #load modules needed
 module load grib_api cdo/1.9.5
 
-mkdir -p $outdir
-cd $outdir
+mkdir -p $wdir
+cd $wdir
 
 #previous year
 let yyyym1=${yyyy}-1 
