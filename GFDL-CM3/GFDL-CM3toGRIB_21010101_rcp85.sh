@@ -32,7 +32,7 @@ wdir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3
 ## Input data directory (ADJUST if needed!)
 ddir=$wdir/rcp85_LBC
 ## Output directory. Will be created
-outdir=$wdir/out/$yyyy
+outdir=$wdir/out/rcp85/$yyyy
 
 #load modules needed
 module load grib_api cdo/1.9.5

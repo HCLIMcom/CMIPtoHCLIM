@@ -6,7 +6,7 @@
 # The idea here is to produce grib files of the same format as the ERA-Interim forcing
 # used by Harmonie, so that no changes have to be made in the Harmonie system.
 #
-# Usage: Script takes year to be converted as first parameter input, e.g., ./GFDL-CM3toGRIB_YYYY.sh 1985
+# Usage: Script takes year to be converted as first parameter input, e.g., ./GFDL-CM3toGRIB_YYYY.sh 2080
 #
 # Limitations:
 # - ERA-Interim data is used for the soil and snow fields, so a longer spinup may be required if land areas are of interest.
@@ -29,9 +29,9 @@ yyyy=$1
 ## Working directory (ADJUST if needed!)
 wdir=/lustre/storeA/users/andreasd/GCM_LBCs/GFDL-CM3
 ## Input data directory (ADJUST if needed!)
-ddir=$wdir/historical_LBC
+ddir=$wdir/rcp45_LBC
 ## Output directory. Will be created
-outdir=$wdir/out/hist/$yyyy
+outdir=$wdir/out/rcp45/$yyyy
 
 #load modules needed
 module load grib_api cdo/1.9.5
@@ -53,25 +53,25 @@ EOF
 let yyyym1=${yyyy}-1 
 
 # Set paths to files:
-ta=$ddir/ta_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyy}010100-${yyyy}123123.nc
-ua=$ddir/ua_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyy}010100-${yyyy}123123.nc
-va=$ddir/va_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyy}010100-${yyyy}123123.nc
-hus=$ddir/hus_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyy}010100-${yyyy}123123.nc
-ps=$ddir/ps_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyy}010100-${yyyy}123123.nc
+ta=$ddir/ta_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyy}010100-${yyyy}123123.nc
+ua=$ddir/ua_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyy}010100-${yyyy}123123.nc
+va=$ddir/va_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyy}010100-${yyyy}123123.nc
+hus=$ddir/hus_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyy}010100-${yyyy}123123.nc
+ps=$ddir/ps_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyy}010100-${yyyy}123123.nc
 
-tap=$ddir/ta_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
-uap=$ddir/ua_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
-vap=$ddir/va_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
-husp=$ddir/hus_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
-psp=$ddir/ps_6hrLev_GFDL-CM3_historical_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
+tap=$ddir/ta_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
+uap=$ddir/ua_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
+vap=$ddir/va_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
+husp=$ddir/hus_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
+psp=$ddir/ps_6hrLev_GFDL-CM3_rcp45_r1i1p1_${yyyym1}010100-${yyyym1}123123.nc
 
-sic=$ddir/sic_6hr_GFDL-CM3_historical_r1i1p1_${yyyy}.nc #interpolated from daily values. This includes 01.01. 00:00h
-tos=$ddir/tos_6hr_GFDL-CM3_historical_r1i1p1_${yyyy}.nc #interpolated from daily values. This includes 01.01. 00:00h
-ts=$ddir/ts_6hr_GFDL-CM3_historical_r1i1p1_${yyyy}.nc #interpolated from monthly values. This includes 01.01. 00:00h
+sic=$ddir/sic_6hr_GFDL-CM3_rcp45_r1i1p1_${yyyy}.nc #interpolated from daily values. This includes 01.01. 00:00h
+tos=$ddir/tos_6hr_GFDL-CM3_rcp45_r1i1p1_${yyyy}.nc #interpolated from daily values. This includes 01.01. 00:00h
+ts=$ddir/ts_6hr_GFDL-CM3_rcp45_r1i1p1_${yyyy}.nc #interpolated from monthly values. This includes 01.01. 00:00h
 
-LANDFRAC=$ddir/sftlf_fx_GFDL-CM3_historical_r0i0p0.nc 
+LANDFRAC=$ddir/sftlf_fx_GFDL-CM3_rcp45_r0i0p0.nc 
 ZAXIS=$wdir/zaxis.reverse.txt
-orog=$ddir/orog_fx_GFDL-CM3_historical_r0i0p0.nc # used as surface geopotential by multiplying by 9.80665 below
+orog=$ddir/orog_fx_GFDL-CM3_rcp45_r0i0p0.nc # used as surface geopotential by multiplying by 9.80665 below
 
 # ERAInterim soil and snow variables (for initialisation):
 EISURFACECLIM=$ddir/ERAI-surfacefields-global-climatology-1990-2005.GFDLgrid.grb
