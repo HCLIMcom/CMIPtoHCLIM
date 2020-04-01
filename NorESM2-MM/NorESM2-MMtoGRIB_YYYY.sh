@@ -1,6 +1,7 @@
 
 # NorESM2-MMtoGRIB.sh
-# Converts NetCDF data from NorESM2-MM to model to grib format to be used as forcing for HARMONIE-Climate (HCLIM)
+# Converts NetCDF data from NorESM2-MM to model to grib format to be used as forcing for HARMONIE-Climate (HCLIM).
+# Since the data is CMORized CMIP6 data, in principle this script should also be easy to adapt to other CMIP6 models.
 # Oskar Landgren, oskar.landgren@met.no
 # Adjustments by Andreas Dobler, andreas.dobler@met.no
 #
@@ -9,7 +10,16 @@
 #
 # Usage: Script takes year to be converted as first parameter input, e.g., ./NorESM2-MM_YYYY.sh 1985
 #
-# Limitations:
+# IMPORTANT:
+# There are two NorESM-specific errors that I had to deal with. If you are planning to adapt this script to another CMIP6 model please remove them:
+# 1. The 6-hourly data (ta, ua, va and hus) from NorESM2-MM has incorrect timestamp, as documented here:
+#    https://github.com/NorESMhub/noresm2cmor/issues/109
+#    (Short summary: It should be 00/06/12/18h but is 21/03/09/15h.)
+#    I have therefore added a "shifttime+3hours" to the cdo commands for these files. If you are adapting this script to another model which does not have this issue, please remove these. 
+# 2. siconc has missing values in longitude and latitude variables. Documented at https://github.com/NorESMhub/noresm2cmor/issues/39
+#    I have dealt with this by manually appending them from another variable, e.g. tos. (ncks -A -v longitude tos.nc siconc.nc)
+#
+# Other current limitations of the script:
 # - ERA-Interim data is used for the soil and snow fields, so a longer spinup may be required if land areas are of interest.
 #   These fields are calculated from ERA-Interim monthly climatology for the years 1990-2005
 #   E.g. Mean of all September data 1990-2005 is stored on the 1st of September at 00h, and mean Oct on Oct 1st at 00h. (Perhaps more correctly it should have been on the 15th.)
@@ -110,6 +120,7 @@ prpare=1
   rm -f tmp.grb tmp.nc ta.grb ua.grb va.grb hus.grb ps.grb lnsp.grb siconc.grb tos.grb ts.grb lsm.grb
 
   echo $pname: "Preparing ta."
+  # IMPORTANT!!! READ NOTE ON TOP ABOUT 3-HOUR SHIFT.
   cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -shifttime,+3hour -selyear,$yyyym1/$yyyy $ta tmp.nc
   #cdo -s -O -setzaxis,$ZAXIS -selmon,2 -selyear,$yyyy $ta tmp.nc
   cdo -s -O -f grb -t ecmwf -setcode,130 -setzaxis,$ZAXIS -setltype,109 -selvar,ta tmp.nc tmp.grb
