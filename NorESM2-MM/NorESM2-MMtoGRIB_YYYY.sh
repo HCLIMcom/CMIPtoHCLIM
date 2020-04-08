@@ -38,7 +38,7 @@ yyyy=$1
 ###PATHS
 ########
 ## Working directory (ADJUST if needed!)
-wdir=/lustre/storeA/users/oskaral/GCM_LBCs/NorESM2-MM
+wdir=/lustre/storeA/users/$USER/GCM_LBCs/NorESM2-MM
 ## Input data directory (ADJUST if needed!)
 ddir=$wdir/historical_LBC
 ## Output directory. Will be created
@@ -49,17 +49,7 @@ module load grib_api cdo/1.7.2
 
 cd $wdir
 
-### Define the z-axis, to be stored in zaxis.reverse2.txt
-### You can get the values for vct with
-### cdo zaxisdes -invertlev ua_6hrLev_NorESM2-MM_historical_r1i1p1f1f1_gn_199001010300-199912312100.nc (from ESGF)
-cat <<EOF > zaxis.reverse.txt
-zaxistype = hybrid
-size      = 48
-levels    = 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1
-vctsize   = 98
-vct       = 1.00000 2.69722 5.17136 8.89455 14.24790 22.07157 33.61283 50.48096 74.79993 109.40055 158.00459 225.44109 317.89560 443.19351 611.11560 833.74390 1125.83411 1505.20764 1993.15833 2614.86255 3399.78418 4382.06250 5600.87012 7100.73096 8931.78223 11149.96973 13817.16797 17001.20898 20775.81836 23967.33789 25527.64648 25671.22461 24609.29688 22640.51172 20147.13477 17477.63477 14859.86426 12414.92578 10201.44238 8241.50293 6534.43213 5066.17871 3815.60693 2758.60254 1870.64636 1128.33936 510.47983 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.01253 0.04887 0.10724 0.18455 0.27461 0.36914 0.46103 0.54623 0.62305 0.69099 0.75016 0.80110 0.84453 0.88127 0.91217 0.93803 0.95958 0.97747 0.99223 1.00000
-EOF
-
+### Define the z-axis, to be stored in zaxis.reverse.txt
 # zaxis for NorESM-MM manually created, starting from "cdo zaxisdes -invertlev" from the global file, but selecting only the axis from ta (files contain two axes, one for surface).
 # (Also removing metadata 'formula = "p = a*p0 + b*ps"', which seems to be taken into account automatically, but causes error if included.)
 cat <<EOF > zaxis.reverse.txt
@@ -90,10 +80,10 @@ ua=$ddir/ua_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
 va=$ddir/va_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
 hus=$ddir/hus_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
 ps=$ddir/ps_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
+ts=$ddir/ts_6hr_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
 
 siconc=$ddir/siconc_6hr_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc #interpolated from daily values. This includes 01.01. 00:00h
 tos=$ddir/tos_6hr_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc #interpolated from daily values. This includes 01.01. 00:00h
-ts=$ddir/ts_6hr_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc #interpolated from monthly values. This includes 01.01. 00:00h
 
 LANDFRAC=$ddir/sftlf_fx_NorESM2-MM_historical_r1i1p1f1_gn.nc 
 ZAXIS=$wdir/zaxis.reverse.txt
