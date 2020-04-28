@@ -32,7 +32,7 @@
 ####################
 #Script starts here#
 ####################
-pname=NorESM2-MMtoGRIB_YYYY.sh # for printing status messages to console
+pname=NorESM2-MMtoGRIB_YYYY_ssp585.sh # for printing status messages to console
 
 yyyy=$1
 
@@ -76,15 +76,15 @@ vct       =   225.523952394724 503.169186413288 1015.79474285245 1855.5317074060
 EOF
 
 # Set paths to files:
-ta=$ddir/ta_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
-ua=$ddir/ua_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
-va=$ddir/va_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
-hus=$ddir/hus_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
-ps=$ddir/ps_6hrLev_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
-ts=$ddir/ts_6hr_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc
+ta=$ddir/ta_6hrLev_NorESM2-MM_ssp585_r1i1p1f1_gn_201501010000-202101010000.nc
+ua=$ddir/ua_6hrLev_NorESM2-MM_ssp585_r1i1p1f1_gn_201501010000-202101010000.nc
+va=$ddir/va_6hrLev_NorESM2-MM_ssp585_r1i1p1f1_gn_201501010000-202101010000.nc
+hus=$ddir/hus_6hrLev_NorESM2-MM_ssp585_r1i1p1f1_gn_201501010000-202101010000.nc
+ps=$ddir/ps_6hrLev_NorESM2-MM_ssp585_r1i1p1f1_gn_201501010000-202101010000.nc
+ts=$ddir/ts_6hrLev_NorESM2-MM_ssp585_r1i1p1f1_gn_201501010000-202101010000.nc
 
-siconc=$ddir/siconc_6hr_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc #interpolated from daily values. This includes 01.01. 00:00h
-tos=$ddir/tos_6hr_NorESM2-MM_historical_r1i1p1f1_1990-2009.nc #interpolated from daily values. This includes 01.01. 00:00h
+siconc=$ddir/siconc_6hr_NorESM2-MM_historical_r1i1p1f1_2015-2100.nc #interpolated from daily values. This includes 01.01. 00:00h
+tos=$ddir/tos_6hr_NorESM2-MM_historical_r1i1p1f1_2015-2100.nc #interpolated from daily values. This includes 01.01. 00:00h
 
 LANDFRAC=$ddir/sftlf_fx_NorESM2-MM_historical_r1i1p1f1_gn.nc 
 ZAXIS=$wdir/zaxis.reverse.txt
@@ -111,15 +111,14 @@ prpare=1
   rm -f tmp.grb tmp.nc ta.grb ua.grb va.grb hus.grb ps.grb lnsp.grb siconc.grb tos.grb ts.grb lsm.grb
 
   echo $pname: "Preparing ta."
-  # IMPORTANT!!! READ NOTE ON TOP ABOUT 3-HOUR SHIFT.
-  cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -shifttime,+3hour -selyear,$yyyym1/$yyyy $ta tmp.nc
+  cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -selyear,$yyyym1/$yyyy $ta tmp.nc
   #cdo -s -O -setzaxis,$ZAXIS -selmon,2 -selyear,$yyyy $ta tmp.nc
   cdo -s -O -f grb -t ecmwf -setcode,130 -setzaxis,$ZAXIS -setltype,109 -selvar,ta tmp.nc tmp.grb
   grib_set -s shortName=t tmp.grb ta.grb
   rm -f tmp.grb tmp.nc
 
   echo $pname: "Preparing ua."
-  cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -shifttime,+3hour -selyear,$yyyym1/$yyyy $ua tmp.nc
+  cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -selyear,$yyyym1/$yyyy $ua tmp.nc
   #cdo -s -O -f grb -t ecmwf -setparam,u -setname,u -setcode,131 -delvar,ps tmp.nc tmp.grb # This gives error:
 #Warning (cgribexDefGrid) : The CGRIBEX library can not store fields on the used grid!
 #Error (cgribexDefGrid) : Unsupported grid type: generic
@@ -134,19 +133,19 @@ prpare=1
   rm -f tmp.grb tmp.nc
 
   echo $pname: "Preparing va."
-  cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -shifttime,+3hour -selyear,$yyyym1/$yyyy $va tmp.nc
+  cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -selyear,$yyyym1/$yyyy $va tmp.nc
   cdo -s -O -f grb -t ecmwf -setparam,v -setname,v -setcode,132 -setzaxis,$ZAXIS -setltype,109 -selvar,va tmp.nc tmp.grb
   grib_set -s shortName=v tmp.grb va.grb
   rm -f tmp.grb tmp.nc
 
   echo $pname: "Preparing hus."
-  cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -shifttime,+3hour -selyear,$yyyym1/$yyyy $hus tmp.nc
+  cdo -s -O -setzaxis,$ZAXIS -selyear,$yyyy -selyear,$yyyym1/$yyyy $hus tmp.nc
   cdo -s -O -f grb -t ecmwf -setparam,q -setname,q -setcode,133 -setzaxis,$ZAXIS -setltype,109 -selvar,hus tmp.nc tmp.grb
   grib_set -s shortName=q tmp.grb hus.grb
   rm -f tmp.grb tmp.nc
 
   echo $pname: "Preparing ps and lnsp."
-  cdo -s -O -selyear,$yyyy -shifttime,+3hour -selyear,$yyyym1/$yyyy $ps tmp.nc
+  cdo -s -O -selyear,$yyyy -selyear,$yyyym1/$yyyy $ps tmp.nc
   cdo -s -O -f grb -t ecmwf -setparam,sp -setname,sp -setcode,134 -setlevel,0 -selvar,ps tmp.nc tmp.ps.grb
   grib_set -s shortName=sp tmp.ps.grb ps.grb
   cdo -s -O -f grb -t ecmwf -ln tmp.nc tmp.lnsp.grb
@@ -154,7 +153,7 @@ prpare=1
   rm -f tmp.nc tmp.ps.grb tmp.lnsp.grb
 
   echo $pname: "Preparing ts."
-  cdo -s -O -f grb -t ecmwf -setparam,skt -setname,skt -setcode,235 -setlevel,0 -selyear,$yyyy -shifttime,+3hour -selyear,$yyyym1/$yyyy $ts tmp.grb
+  cdo -s -O -f grb -t ecmwf -setparam,skt -setname,skt -setcode,235 -setlevel,0 -selyear,$yyyy -selyear,$yyyym1/$yyyy $ts tmp.grb
   grib_set -s shortName=skt tmp.grb ts.grb
   rm tmp.grb
 
