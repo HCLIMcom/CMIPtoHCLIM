@@ -1,0 +1,11 @@
+ln -s ../../../ssp585/nc/ocean/siconc_SIday_MPI-ESM1-2-LR_ssp585_r1i1p1f1_gn_20150101-20341231.nc siconc_SIday_MPI-ESM1-2-LR_historical_r1i1p1f1_gn_20150101-20341231.nc
+ln -s ../../../ssp585/nc/ocean/tos_Oday_MPI-ESM1-2-LR_ssp585_r1i1p1f1_gn_20150101-20341231.nc tos_Oday_MPI-ESM1-2-LR_historical_r1i1p1f1_gn_20150101-20341231.nc
+
+ln -s ../../../historical/nc/ocean/siconc_SIday_MRI-ESM2-0_historical_r1i1p1f1_gn_19500101-20141231.nc siconc_SIday_MRI-ESM2-0_ssp585_r1i1p1f1_gn_19500101-20141231.nc
+ln -s ../../../historical/nc/ocean/tos_Oday_MRI-ESM2-0_historical_r1i1p1f1_gn_19500101-20141231.nc tos_Oday_MRI-ESM2-0_ssp585_r1i1p1f1_gn_19500101-20141231.nc
+
+
+
+ln -s ../../../historical/nc/ocean/tos_Oday_MRI-ESM2-0_historical_r1i1p1f1_gn_19500101-20141231.nc tos_Oday_MRI-ESM2-0_ssp585_r1i1p1f1_gn_19500101-20141231.nc
+
+cdo zaxisdes -invertlev
