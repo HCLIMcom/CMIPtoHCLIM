@@ -1,0 +1,6 @@
+March 2019 : the ap_bnds and b_bnds arrays in all CNRM CMIP6 files with atmospheric data on model levels are incorrectly ordered. 
+Correctly ordered arrays are provided in the joint CNRM_models_vertical_coordinates.nc file
+
+http://www.umr-cnrm.fr/cmip6/data/CNRM_models_vertical_coordinates.nc
+
+http://www.umr-cnrm.fr/cmip6/spip.php?article23
